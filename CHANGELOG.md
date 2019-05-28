@@ -1,5 +1,265 @@
 # Mailspring Changelog
 
+### 1.6.1 (4/4/2019)
+
+Fixes:
+
+* Sync Mail Now now has a keyboard shortcut (F5). Thanks @StarScape!
+
+* Swipe-to-archive on a macOS trackpad is less "touchy" and ignores interactions that are primarily vertical. #690
+
+* Mail Rules run on every incoming message and always run after the message body has been fetched, fixing issues with some mail rules not being executed properly. #605, #513
+
+* The "Check for Updates" menu item no longer causes the app to crash when no update is available.
+
+* Fixes a regression in removing quoted text via the small "X" that appears over the quoted text marker. #1434
+
+* Update snapcraft.yml to include gtk-3-themes #1435
+
+* Spellcheck on large emails with more than 500 distinct words is much more performant thanks to a larger cache.
+
+* In the composer, you can delete a text selection that includes the first character in the email. (More composer fixes are coming soon - we've been unblocked upstream in SlateJS!)
+
+* The Japanese translation has been improved. Thanks @kometchtech!
+
+* The Russian translation has been improved. Thanks @ivan-nginx!
+
+* Mailspring now uses Electron 4.1.4, which fixes several crashes and an issue on KDE where tray icons would be displayed incorrectly as a 22x22 square cropped from the center.
+
+### 1.6.0 (3/18/2019)
+
+**Mailspring now uses the TypeScript compiler instead of Babel, and the entire project (92,000 LOC!) has been converted to TypeScript. 🎉** This took an enormous amount of effort - 9,800 TypeScript errors were resolved by hand - but will make the project more stable, easier to maintain, and easier to contribute to in the future.
+
+* The German translation has been improved (Thanks @ahahn94!) and Japanese is now listed as a fully reviewed language!
+
+* The Linux system tray icon is now larger and brighter when unread, which looks better on most Linux distros. (#1386)
+
+* Mailspring now shows it's icon in notifications and correctly resolves the icon from your current theme is only supported for Gnome, Mate and Budgie. (Thanks @arkraft!)
+
+* When clicking the track of a scrollbar, the view is scrolled by one page up or down rather than scrolling to the clicked position.
+
+* When switching between a mailbox and "Drafts" or "Activity" the left sidebar no longer scrolls back to the top.
+
+* Preferences styling has been slightly improved.
+
+* Mailspring now uses Electron 4.0.8 which includes a recent security patch and is recommended for all users.
+
+* Window controls are no longer “squished” in the darkside theme on Linux #1104
+
+* Double-clicking the window toolbar on macOS correctly maximizes / unmaximizes the window. #1388
+
+* When using the Outlook keybindings, Ctrl-F is no longer tied to both "Forward" and "Find in thread". "Find in thread" has been changed to Ctrl-Shift-F for consistency with Outlook.
+
+* Mailspring strips surrounding quotes from displayed contact namess. #1397
+
+### 1.5.7 (2/25/2019)
+
+Fixes:
+
+* Emails in Gmail accounts no longer "flicker" in the thread list occasionally if you mark them as read and archive them in quick succession.
+
+* Duplicate sent emails (your copy + the recipient's copy) no longer appear in Gmail when open/link tracking are enabled. Gmail IMAP changed handling of IMAP Delete + Expunge in Sent Mail earlier this month causing this bug. This also resolves issues where viewing a message you sent would trigger read receipts. #1279 #1086 #937 #1162 #1049
+
+* Mailspring no longer erases all your account passwords when signing out of your Mailspring ID on macOS due to a race condition.
+
+* Cut/copy/paste and undo/redo now work in the "Create a Mailspring ID" and "Upgrade to Pro" webviews within the app. #15219
+
+* Mailspring now requests the "internal / received" date of emails to handle providers (including home.pl) which do not return message dates when asked for mailbox headers. This fixes an important issue where all emails could appear to be from 1969.
+
+* Mailspring now renders inline images attachments within the body of the email even if they're missing an "inline" content-disposition. Previously these images would appear as attachments at the bottom of the message.
+
+* Mailspring now supports home.pl accounts which advertised support for the IMAP XLIST extension but did not appear to implement it properly.
+
+* The contact sidebar now opens LinkedIn person profiles correctly - the "/in/" segment of the URL was previously missing.
+
+* The signature editor now allows you to add a link to your LinkedIn profile.
+
+* Mailspring shows the "Snoozed" folder name correctly in cases where it's called "Mailspring.Snoozed".
+
+* Mailspring is now less aggressive about wrapping wide emails and prefers horizontal scrolling
+  for large tables, etc.
+
+* French translations have been improved (thanks to @Gaspacchio!)
+
+Performance:
+
+* Mailspring now uses DOM ResizeObservers to implement scroll bars and properly size emails as they render which is a huge performance win, especially on slower machines.
+
+* Mailspring refreshes the data backing the conversation view asynchronously when threads are removed, eliminating jank that was especially noticable if you'd scrolled down in the list and were viewing a unified mailbox.
+
+Development:
+
+* Mailspring now uses Electron 4.0.5.
+
+### 1.5.6 (2/8/2019)
+
+Features:
+
+* Mailspring now generates quick attachment previews of common "code" file types using Prism, including .html, .json, .txt, .log.
+
+* Italian, Japanese and French translations have been improved (Thanks to @kometchtech, @ecavicc and @gooodmorningopenstack!)
+
+Fixes:
+
+* Mailspring now configures Yandex email accounts on custom domains correctly. #1337
+
+* Emails that use `<style>` tags and `class` attributes without any inline styles are now rendered correctly.
+
+* Selecting several lines of pasted text and enabling "Code Block" formatting now works correctly. #1346
+
+* Maispring now plays the "New Mail" sound correctly even if you haven't interacted with the window since the app was launched. (This was broken due to a recent new feature in Chromium blocking web pages from playing audio.)
+
+Development:
+
+* Mailspring now uses Electron 4.0.4 which fixes several memory leaks.
+
+* A preview of Mailspring's upcoming Calendar feature is available under the Developer menu. Right now, it only supports Google Calendar and the data shown on the calendar is read-only. Stay tuned! The UI was originally developed for Nylas Mail before it was shuttered and we'll be re-launching it this summer.
+
+### 1.5.5 (1/3/2019)
+
+Features:
+
+* Mailspring now shows visual previews of PDF, DOCX, XLSX, XLS, CSV, and Markdown attachments on Windows and Linux as well as macOS. Selecting an attachment in the message view and pressing the space bar or clicking the small "eye" icon shows a preview of the contents in a new window.
+
+Fixes:
+
+* Mailspring no longer crashes with a fatal error on CentOS, Red Hat Enterprise Linux (RHEL) 7.6 with a "CXXABI_1.3.9" message. When we upgraded to Electron 4, using GCC++5 to build parts of Mailspring resulted in libraries too new for some linux platforms.
+
+* In dark mode, text in message bodies is no longer black.
+
+* The `copy` and `cut` context menu items are disabled when right-clicking a password field.
+
+* The Brazillian Portuguese translation has been improved (Thanks @leoescarpellin!)
+
+* You can now view Mailspring's open source license and all of it's dependencies' licenses and copyright notices from the menu.
+
+### 1.5.4 (12/29/2018)
+
+Improvements:
+
+* An important bug that caused Mailspring to occasionally send blank or incomplete drafts (especially long relies or messages with significant quoted text) has been resolved! #948
+
+* Printing email messages now works reliably and a new "Save as PDF" option in the print window makes it easy to export an email thread. #1236 #1027
+
+* Extremely long messages now clip in the message panel and a "popout" option allows you to view their entire text in a separate window, similar to Gmail. This allows Mailspring to more reliably maintain good performance as you browse your email.
+
+* A Brazillian Portuguese translation has been added (Thanks @leoescarpellin!)
+
+* Russian and Japanese translations have been improved (Thanks @kometchtech, @TiiRiiX)
+
+* Mailspring now runs on **Electron 4**. This should fix the menu bar not appearing in Ubuntu 18.10 (#1258, #1158) and comes with a long list of bug fixes and improvements (Mailspring was previously on Electron 2.0.14.) _As of this release, Mailspring and Electron no longer support macOS 10.9._
+
+* The `has:attachment` search filter has been added. Note that this clause only returns messages Mailspring has downloaded and has "seen" the attachments for. (Currently the last three months of mail.) #1260
+
+Fixes:
+
+* Sending emails with consecutive whitespaces now works as expected. #1270
+
+* Mailspring now adds itself to the Dock in macOS Mavericks properly. #1256
+
+* The `Send and Archive` option is no longer shown when you're composing a new message. #980
+
+* Mailspring no longer hangs when trying to sync a mailbox containing a message with an unidentified MIME part. #1266
+
+* Mailspring no longer inserts an extra whitespace when you compose a reply with a default signature. #1264
+
+* The tool tip displayed when scrolling in the message panel is now localized correctly.
+
+* Copy / paste and the Terms / Privacy links in billing and registration windows now work properly. #1280
+
+* Open tracking pixels now display as `Sent from Mailspring` when the recipient's email client shows image alt text. It's important we have alt text identifying the image in some way for highest deliverability, but the previous `open tracking` alt text was a bit too revealing for many users.
+
+### 1.5.3 (11/25/2018)
+
+Improvements:
+
+* French and Japanese localizations have been improved. (Thanks @kometchtech, @shyne99!)
+
+* Mailspring now honors "Do Not Disturb" on macOS and "Quiet Time" on Windows. Notifications do not appear and the "new mail" sound does not play.
+
+* Mailspring is more stable and handles a variety of edge cases better thanks to crash reports from Sentry.
+
+* Right-clicking an image and choosing "Copy Image" now works correctly on Linux.
+
+* Mailspring's Outlook keyboard shortcut preset now includes Ctrl-Q for "mark as read" and many other shortcuts. On Windows, Alt-F4 quits the program rather than the non-standard Ctrl-Q.
+
+Development:
+
+* Mailspring now uses it's own logo API rather than Clearbit's, since we cannot provide appropriate Clearbit attribution when the logo images are used in email signatures.
+
+* Mailspring now ships with Electron 2.0.14, which fixes a variety of small issues. We will move to Electron 4.x as soon as electron/electron#14260 is resolved.
+
+### 1.5.2 (11/6/2018)
+
+Improvements:
+
+* Mailspring now defaults to English for languages whose translations have not been manually reviewed by a contributor. You can customize the interface language via a new setting in Preferences > General.
+
+* Hundreds of translations have been manually reviewed and refined in German, Chinese, French and Korean. (Thanks to @pandanonyme @jungin500 @qitar888 @DarkSmile92!)
+
+* When connecting a Yahoo Mail account, Mailspring notes that Yahoo requires an App Password. Provider-specific notes are also included in the "View Log" text for easier debugging.
+
+* You can now change the "Sender Identity" (the name that is sent in the From field with your email address) for each account in Preferences > Accounts. #1169
+
+Fixes:
+
+* Mailspring no longer aggressively autocompletes :10 to the :100 emoji, or :12 to the :1234 emoji, to avoid conflicts with typing times. #1148
+
+* On macOS, Mailspring's spellchecker correctly transitions to the language you're typing in consistent with Linux and Windows.
+
+* The Emoji picker now works correctly when using Mailspring in a language other than English. #1189
+
+* Shrinking Mailspring's UI using the "inteface zoom" setting no longer causes spellchecking "squiggles" to become invisible.
+
+* The "Does Not Contain" mail rule now requires that every item in the field not contain the text as expected, rather than just requiring that any one of the items (senders, recipients, etc.) not contain the text. #1110
+
+* Mailspring's "Upgrade to Pro" modal no longer appears badly clipped when using a custom interface zoom level.
+
+* The fixed size "Add an Account" window now ignores custom zoom levels so that fields and forms are not clipped.
+
+### 1.5.1 (10/27/2018)
+
+Improvements:
+
+* Thousands of translations have been improved or manually reviewed. Thanks to @odie2 @pamo @SimonVanacco @louim @DarkSmile92 @phylophyl and @renfliu for help in 6 languages!
+
+* Mailspring now ships Linux appdata files (Thanks @kirbyfan64!)
+
+Fixes:
+
+* Reverts a change to IMAP message parsing that was designed to extend support for Proton Mail Bridge,
+  which caused many emails from some IMAP servers to appear to be from "NIL".
+
+### 1.5.0 (10/22/2018)
+
+Features:
+
+* Mailspring now supports localization! The app detects your system locale and all text, menus, buttons, etc. in the app appear in your language. Mailspring's core strings has been manually localized in 38 languages and the rest (mostly error messages and text describing features) have been automatically translated.
+
+  * We'd love your help improving these localizations! A new "Developer > Toggle Localizer Tools" menu option in Mailspring allows you to submit better translations right within the app. You can also edit the translation files directly and submit a pull request. See the new [localizer guide here](https://github.com/Foundry376/Mailspring/blob/master/LOCALIZATION.md).
+
+  * If you use a RTL language, Mailspring's entire UI now appears right-justified, including the sidebar, preference panels, scrollbars, and more. If you use Mailspring in Arabic or Hebrew and notice issues in the right-to-left presentation, please file issues or submit pull requests.
+
+Fixes:
+
+* The "contact profiles" feature of Mailspring Pro is much more robust and reliable thanks to a new profile discovery mechanism.
+
+* The "contact profile" sidebar shows the Gravatar associated with the email address before falling back to the "empty box with initials".
+
+* Mailspring now uses the latest version of libetpan, which improves stability and fixes several parsing bugs. It also more flexibly parses IMAP responses that include unquoted text fragments. #429
+
+* On Linux, Mailspring now uses the pixmaps dir to show an icon in the corner of each window. #1135
+
+* On Linux, Mailspring uses circular icons rather than square ones. #1098
+
+* The padding of the search bar in the Darkside theme has been fixed. #1048
+
+Developer:
+
+* Trying to open a package that does not define `engines` in it's package.json no longer crashes the app.
+
+* Mailspring now uses Electron 2.0.11 which resolves #1108.
+
 ### 1.4.2 (8/15/2018)
 
 Fixes:
@@ -67,7 +327,7 @@ Fixes:
 
   * You can now focus the search bar and conduct searches entirely with keyboard shortcuts (use Escape to exit the search bar!) #960
 
-* Mailspring now uses Electron 2.0.2, which delibers some [great bug fixes and new features](https://github.com/electron/electron/releases/tag/v2.0.0):
+* Mailspring now uses Electron 2.0.2, which delivers some [great bug fixes and new features](https://github.com/electron/electron/releases/tag/v2.0.0):
 
   * Chrome 61, Node 8.9.3, V8 6.1.534.41 with improved performance and lower memory footprints
   * Better GTK+ theme support, including support for menu styling

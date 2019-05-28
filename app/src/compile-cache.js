@@ -2,13 +2,13 @@ const path = require('path');
 const fs = require('fs');
 const mkdirp = require('mkdirp');
 
-const babelCompiler = require('./compile-support/babel');
 const typescriptCompiler = require('./compile-support/typescript');
 
 const COMPILERS = {
-  '.jsx': babelCompiler,
-  '.es6': babelCompiler,
+  '.jsx': typescriptCompiler,
   '.ts': typescriptCompiler,
+  '.tsx': typescriptCompiler,
+  '.es6': typescriptCompiler,
 };
 
 const cacheStats = {};
@@ -121,7 +121,7 @@ require('source-map-support').install({
 
     let sourceMap = null;
     try {
-      sourceMap = JSON.parse(new Buffer(rawData, 'base64'));
+      sourceMap = JSON.parse(Buffer.from(rawData, 'base64'));
     } catch (error) {
       console.warn('Error parsing source map', error.stack);
       return null;

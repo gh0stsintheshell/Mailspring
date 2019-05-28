@@ -59,7 +59,7 @@ module.exports = function(grunt) {
 
       let srcPath = path.resolve(__dirname, '..', '..', 'src');
 
-      const blacklist = ['/K2/', 'legacy-edgehill-api', 'edgehill-api'];
+      const blacklist = ['legacy-edgehill-api', 'edgehill-api'];
 
       let in_blacklist = function(file) {
         for (var i = 0; i < blacklist.length; i++) {
@@ -88,24 +88,6 @@ module.exports = function(grunt) {
             path.join(cjsxOutputDir, path.basename(file).slice(0, -3 || undefined) + 'js'),
             transformed.code
           );
-        } else if (path.extname(file) === '.es6') {
-          console.log(file);
-
-          let fileStr = grunt.file.read(file);
-
-          let transformed = require('babel-core').transform(fileStr, {
-            plugins: ['transform-class-properties', 'transform-function-bind'],
-            presets: ['react', 'electron'],
-          });
-
-          if (transformed.code.indexOf('class ') > 0) {
-            grunt.log.writeln('Found class in file: ' + file);
-
-            grunt.file.write(
-              path.join(cjsxOutputDir, path.basename(file).slice(0, -3 || undefined) + 'js'),
-              transformed.code
-            );
-          }
         } else if (path.extname(file) === '.js') {
           let dest_path = path.join(cjsxOutputDir, path.basename(file));
           console.log('Copying ' + file + ' to ' + dest_path);
